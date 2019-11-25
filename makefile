@@ -7,4 +7,5 @@ main: main.o cli2.o
 .PHONY: clean
 clean:
 	@rm *.o
+	@rm ./main
 	@echo done

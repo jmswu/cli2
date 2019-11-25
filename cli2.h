@@ -1,9 +1,8 @@
 #ifndef _CLI2_H
 #define _CLI2_H
 
-#define VairableName(name)  (#name)
-
 #include <stdio.h>
+#include <stdint.h>
 
 /* Function callback for using the CLI2 library.
  * @param char*     - parser return char pointer, for use for the next command search 
@@ -17,7 +16,7 @@ typedef void(*cli_cb)(char*, void*, void*);
  * one command and function callback
  */
 typedef struct {
-    char* cmd;      // pointer to commmand
+    const char* cmd;// pointer to commmand
     cli_cb cb;      // command callback function
     void *arg0;     // argument 0 for the callback function, this can be removed to save memory
     void *arg1;     // argument 1 for the callback function, this can be removed to save memory
@@ -27,9 +26,9 @@ typedef struct {
  * This structure store all the information of one CLI2 Object
  */
 typedef struct{
-    Cli_Data *cmd_list; // pointer to the list memory location of all the command data
-    int index;          // index of the current empty data location in the command data list
-    int max_size;       // maximum allow cli command size
+    Cli_Data *cmd_list;         // pointer to the list memory location of all the command data
+    uint_least8_t index;        // index of the current empty data location in the command data list
+    uint_least8_t max_size;     // maximum allow cli command size
 }Cli_Obj;
 
 /* CLI2 return code
@@ -57,12 +56,17 @@ void Cli_Data_init(Cli_Data *cli_data);
  * @param int max_size          - The maximum commands that is allowed for the CLI 
  *                              - Object, this is size of the Cli_Data array
  */
-Cli_Handler Cli_Construct(Cli_Obj *cli_obj, Cli_Data *cli_data, int max_size);
+Cli_Handler Cli_Construct(Cli_Obj *cli_obj, Cli_Data *cli_data, uint_least8_t max_size);
 
-
+/* Add command data to the CLI2 object
+ * @param Cli_Handler handle    - cli object handler
+ * @param Cli_Data *cli_data    - pointer to the commmand data
+ * @return CliReturnCode        - CLI_FAILED = no more empty space in cli2 object
+ *                                CLI_OK = addition success
+ */                               
 Cli_ReturnCode Cli_Add(Cli_Handler handle, Cli_Data *cli_data);
-void Cli_Remove(void);
-void Cli_Scan(void);
+
+void Cli_Scan(Cli_Handler handle, char *input_str);
 
 /* Print all the information out for debugging
  * @param Cli_Handler handle    - Cli Object handle
