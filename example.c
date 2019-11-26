@@ -5,19 +5,21 @@ void cmd_help(char *cmd, void *arg0, void *arg1);   /* command help callback */
 void cmd_cmd1(char *cmd, void *arg0, void *arg1);   /* command1 callback */
 void cmd_cmd2(char *cmd, void *arg0, void *arg1);   /* command2 callback */
 void cmd_cmd3(char *cmd, void *arg0, void *arg1);   /* command3 callback */
-void cmd_error(Cli_Handler handle);               /* command error callback */
+void cmd_error(Cli_Handler handle);                 /* command error callback */
 
 Cli_Obj cli_obj;                // make cli object 
 Cli_Data cli_data[10];          // reverse memory for up to 10 cli
 
 int main(char *argv[], int argc){
 
+    /* Construct a cli object */
     Cli_Handler cli_handler;
     cli_handler = Cli_Construct(&cli_obj, 
         cli_data, 
         sizeof(cli_data)/sizeof(cli_data[0]),
         NULL);
 
+    /* Assemble command and function */
     Cli_Data cli_cmd_help;
     Cli_Data cli_cmd1;
     Cli_Data cli_cmd2;
@@ -49,6 +51,7 @@ int main(char *argv[], int argc){
     cli_cmd3.cb = cmd_cmd3;
     cli_cmd3.arg0 = &arg3;
 
+    /* Add command data to cli object */
     Cli_Add(cli_handler, &cli_cmd_help);
     Cli_Add(cli_handler, &cli_cmd1);
     Cli_Add(cli_handler, &cli_cmd2);
