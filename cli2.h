@@ -11,6 +11,7 @@
  */
 typedef void(*cli_cb)(char*, void*, void*);
 
+
 /* CLI2 library command and function callback struct
  * This struct store all the informationn regarding
  * one command and function callback
@@ -25,11 +26,25 @@ typedef struct {
 /* CLI2 object
  * This structure store all the information of one CLI2 Object
  */
-typedef struct{
+typedef struct CLI_OBJ Cli_Obj;
+
+
+/* CLI2 handler
+ * This will be the entry point for using a cli object
+ */
+typedef Cli_Obj *Cli_Handler;
+
+/* CLI2 library default function callback when there is no command match
+ * @param Cli_Handler handle   - pointer to the cli handle
+ */
+typedef void(*cli_default_cb)(Cli_Handler handle);
+
+struct CLI_OBJ{
     Cli_Data *cmd_list;         // pointer to the list memory location of all the command data
     uint_least8_t index;        // index of the current empty data location in the command data list
     uint_least8_t max_size;     // maximum allow cli command size
-}Cli_Obj;
+    cli_default_cb default_cb;  // 
+};
 
 /* CLI2 return code
  */
@@ -39,10 +54,7 @@ typedef enum {
     CLI_MEMORY_ERROR    // not enough memory allocated for the data
 }Cli_ReturnCode;
 
-/* CLI2 handler
- * This will be the entry point for using a cli object
- */
-typedef Cli_Obj *Cli_Handler;
+
 
 /* CLI2 Data initializer. Initialize the Cli_Data to default values
  * @param Cli_Data *cli_data    - pointer to the cli data
@@ -55,8 +67,12 @@ void Cli_Data_init(Cli_Data *cli_data);
  *                                that store all the cli data
  * @param int max_size          - The maximum commands that is allowed for the CLI 
  *                              - Object, this is size of the Cli_Data array
+ * @param cli_default_cb cb     - callback when there is no command match found
  */
-Cli_Handler Cli_Construct(Cli_Obj *cli_obj, Cli_Data *cli_data, uint_least8_t max_size);
+Cli_Handler Cli_Construct(Cli_Obj *cli_obj, 
+    Cli_Data *cli_data, 
+    uint_least8_t max_size, 
+    cli_default_cb cb);
 
 /* Add command data to the CLI2 object
  * @param Cli_Handler handle    - cli object handler

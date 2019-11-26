@@ -3,20 +3,23 @@
 
 /*  Cli2 library default call back function
  */
-void cmd_default(char *cmd, void *arg0, void *arg1);
-void cmd_default(char *cmd, void *arg0, void *arg1){
+void cli_default(char *cmd, void *arg0, void *arg1);
+void cli_default(char *cmd, void *arg0, void *arg1){
     // spin forever
     while(1);
 }
 
 void Cli_Data_init(Cli_Data *cli_data){
-    cli_data->cb = cmd_default;     /* assing to the default callback function */
+    cli_data->cb = cli_default;     /* assing to the default callback function */
     cli_data->cmd = "cli2_default"; /* default command */
     cli_data->arg0 = NULL;          /* no argument 0 */
     cli_data->arg1 = NULL;          /* no argument 1 */
 }
 
-Cli_Handler Cli_Construct(Cli_Obj *cli_obj, Cli_Data *cli_list, uint_least8_t max_size){
+Cli_Handler Cli_Construct(Cli_Obj *cli_obj, 
+    Cli_Data *cli_list, 
+    uint_least8_t max_size,
+    cli_default_cb cb){
 
     /* Initialize the data with NULL value */
     for(uint_fast8_t i = 0; i < max_size; i++){
@@ -29,6 +32,7 @@ Cli_Handler Cli_Construct(Cli_Obj *cli_obj, Cli_Data *cli_list, uint_least8_t ma
     cli_obj->max_size = max_size;   /* assign maximum allowed command size */
     cli_obj->cmd_list = cli_list;   /* assign external cli data to the list */
     cli_obj->index = 0;             /* pointing to the first empty location */
+    cli_obj->default_cb = cb;       
     return (Cli_Handler)cli_obj;
 }
 
@@ -126,5 +130,8 @@ void Cli_Scan(Cli_Handler handle, char *input_str){
                 handle->cmd_list[i].arg1);
             return;
         }
+    }
+    if (handle->default_cb != NULL){
+        handle->default_cb(handle);
     }
 }

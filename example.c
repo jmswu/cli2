@@ -5,6 +5,7 @@ void cmd_help(char *cmd, void *arg0, void *arg1);
 void cmd_cmd1(char *cmd, void *arg0, void *arg1);
 void cmd_cmd2(char *cmd, void *arg0, void *arg1);
 void cmd_cmd3(char *cmd, void *arg0, void *arg1);
+void cmd_default(Cli_Handler handle);
 
 Cli_Obj cli_obj;                // make cli object 
 Cli_Data cli_data[10];          // reverse memory for up to 10 cli
@@ -12,8 +13,10 @@ Cli_Data cli_data[10];          // reverse memory for up to 10 cli
 int main(char *argv[], int argc){
 
     Cli_Handler cli_handler;
-    cli_handler = Cli_Construct(&cli_obj, cli_data, 10);
-
+    cli_handler = Cli_Construct(&cli_obj, 
+        cli_data, 
+        sizeof(cli_data)/sizeof(cli_data[0]),
+        NULL);
     Cli_Data cli_cmd_help;
     Cli_Data cli_cmd1;
     Cli_Data cli_cmd2;
@@ -77,4 +80,12 @@ void cmd_cmd2(char *cmd, void *arg0, void *arg1){
 void cmd_cmd3(char *cmd, void *arg0, void *arg1){
     int *data = (int *)arg0;
     printf("Hello, this a cmd3, arg0=%d\n", *data);
+}
+
+void cmd_default(Cli_Handler handle){
+    printf("Command error\n");
+    printf("try:\n");
+    for(int i = 0; i < handle->index; i++){
+        printf("%s\n", handle->cmd_list[i].cmd);
+    }
 }
