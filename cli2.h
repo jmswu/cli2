@@ -1,3 +1,8 @@
+/* CLI2 Library
+ * Author: James Wu
+ * Email : jameswu62@yahoo.co.nz
+ */
+
 #ifndef _CLI2_H
 #define _CLI2_H
 

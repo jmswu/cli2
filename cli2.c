@@ -1,3 +1,8 @@
+/* CLI2 Library
+ * Author: James Wu
+ * Email : jameswu62@yahoo.co.nz
+ */
+
 #include <ctype.h>
 #include "cli2.h"
 
