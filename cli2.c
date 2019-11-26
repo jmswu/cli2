@@ -19,7 +19,7 @@ void Cli_Data_init(Cli_Data *cli_data){
 Cli_Handler Cli_Construct(Cli_Obj *cli_obj, 
     Cli_Data *cli_list, 
     uint_least8_t max_size,
-    cli_default_cb cb){
+    cli_error_cb cb){
 
     /* Initialize the data with NULL value */
     for(uint_fast8_t i = 0; i < max_size; i++){
@@ -32,7 +32,7 @@ Cli_Handler Cli_Construct(Cli_Obj *cli_obj,
     cli_obj->max_size = max_size;   /* assign maximum allowed command size */
     cli_obj->cmd_list = cli_list;   /* assign external cli data to the list */
     cli_obj->index = 0;             /* pointing to the first empty location */
-    cli_obj->default_cb = cb;       
+    cli_obj->error_cb = cb;       
     return (Cli_Handler)cli_obj;
 }
 
@@ -131,7 +131,7 @@ void Cli_Scan(Cli_Handler handle, char *input_str){
             return;
         }
     }
-    if (handle->default_cb != NULL){
-        handle->default_cb(handle);
+    if (handle->error_cb != NULL){
+        handle->error_cb(handle);
     }
 }

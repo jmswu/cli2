@@ -37,13 +37,13 @@ typedef Cli_Obj *Cli_Handler;
 /* CLI2 library default function callback when there is no command match
  * @param Cli_Handler handle   - pointer to the cli handle
  */
-typedef void(*cli_default_cb)(Cli_Handler handle);
+typedef void(*cli_error_cb)(Cli_Handler handle);
 
 struct CLI_OBJ{
     Cli_Data *cmd_list;         // pointer to the list memory location of all the command data
     uint_least8_t index;        // index of the current empty data location in the command data list
     uint_least8_t max_size;     // maximum allow cli command size
-    cli_default_cb default_cb;  // 
+    cli_error_cb error_cb;      // call when there is no command match
 };
 
 /* CLI2 return code
@@ -72,7 +72,7 @@ void Cli_Data_init(Cli_Data *cli_data);
 Cli_Handler Cli_Construct(Cli_Obj *cli_obj, 
     Cli_Data *cli_data, 
     uint_least8_t max_size, 
-    cli_default_cb cb);
+    cli_error_cb cb);
 
 /* Add command data to the CLI2 object
  * @param Cli_Handler handle    - cli object handler

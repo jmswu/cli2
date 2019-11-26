@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include "cli2.h"
 
-void cmd_help(char *cmd, void *arg0, void *arg1);
-void cmd_cmd1(char *cmd, void *arg0, void *arg1);
-void cmd_cmd2(char *cmd, void *arg0, void *arg1);
-void cmd_cmd3(char *cmd, void *arg0, void *arg1);
-void cmd_default(Cli_Handler handle);
+void cmd_help(char *cmd, void *arg0, void *arg1);   /* command help callback */
+void cmd_cmd1(char *cmd, void *arg0, void *arg1);   /* command1 callback */
+void cmd_cmd2(char *cmd, void *arg0, void *arg1);   /* command2 callback */
+void cmd_cmd3(char *cmd, void *arg0, void *arg1);   /* command3 callback */
+void cmd_error(Cli_Handler handle);               /* command error callback */
 
 Cli_Obj cli_obj;                // make cli object 
 Cli_Data cli_data[10];          // reverse memory for up to 10 cli
@@ -17,6 +17,7 @@ int main(char *argv[], int argc){
         cli_data, 
         sizeof(cli_data)/sizeof(cli_data[0]),
         NULL);
+
     Cli_Data cli_cmd_help;
     Cli_Data cli_cmd1;
     Cli_Data cli_cmd2;
@@ -82,7 +83,7 @@ void cmd_cmd3(char *cmd, void *arg0, void *arg1){
     printf("Hello, this a cmd3, arg0=%d\n", *data);
 }
 
-void cmd_default(Cli_Handler handle){
+void cmd_error(Cli_Handler handle){
     printf("Command error\n");
     printf("try:\n");
     for(int i = 0; i < handle->index; i++){
