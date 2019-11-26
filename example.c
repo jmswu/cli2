@@ -17,7 +17,7 @@ int main(char *argv[], int argc){
     cli_handler = Cli_Construct(&cli_obj, 
         cli_data, 
         sizeof(cli_data)/sizeof(cli_data[0]),
-        NULL);
+        cmd_error);
 
     /* Assemble command and function */
     Cli_Data cli_cmd_help;

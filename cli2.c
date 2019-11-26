@@ -10,6 +10,9 @@ void cli_default(char *cmd, void *arg0, void *arg1){
 }
 
 void Cli_Data_init(Cli_Data *cli_data){
+
+    if (cli_data == NULL) return;
+
     cli_data->cb = cli_default;     /* assing to the default callback function */
     cli_data->cmd = "cli2_default"; /* default command */
     cli_data->arg0 = NULL;          /* no argument 0 */
@@ -20,6 +23,9 @@ Cli_Handler Cli_Construct(Cli_Obj *cli_obj,
     Cli_Data *cli_list, 
     uint_least8_t max_size,
     cli_error_cb cb){
+
+    if (cli_obj == NULL) return NULL;
+    if (cli_list == NULL) return NULL;
 
     /* Initialize the data with NULL value */
     for(uint_fast8_t i = 0; i < max_size; i++){
@@ -40,6 +46,8 @@ Cli_ReturnCode Cli_Add(Cli_Handler handle, Cli_Data *cli_data){
     uint_fast8_t index = 0;
     uint_fast8_t max_size = 0;
     index = handle->index;
+
+    if (cli_data == NULL) return CLI_FAILED;
 
     /* make sure the maximum command entry is not reached */
     max_size = handle->max_size;
@@ -121,6 +129,9 @@ char* Cli_parse(char* buffer, const char* pattern)
 }
 
 void Cli_Scan(Cli_Handler handle, char *input_str){
+
+    if (input_str == NULL) return;
+
     char *ptr;
     for(uint_fast8_t i = 0; i < handle->index; i++){
         ptr = Cli_parse(input_str, handle->cmd_list[i].cmd);;
