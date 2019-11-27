@@ -6,6 +6,10 @@
 #ifndef _CLI2_H
 #define _CLI2_H
 
+#ifdef	__cplusplus
+extern "C" {
+#endif
+
 #include <stdio.h>
 #include <stdint.h>
 
@@ -94,6 +98,8 @@ void Cli_Scan(Cli_Handler handle, char *input_str);
  */
 void Cli_print(Cli_Handler handle);
 
-
+#ifdef	__cplusplus
+}
+#endif
 
 #endif
