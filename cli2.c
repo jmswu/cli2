@@ -4,6 +4,7 @@
  */
 
 #include <ctype.h>
+#include "stdlib.h"
 #include "cli2.h"
 
 /*  Cli2 library default call back function
@@ -45,6 +46,18 @@ Cli_Handler Cli_Construct(Cli_Obj *cli_obj,
     cli_obj->index = 0;             /* pointing to the first empty location */
     cli_obj->error_cb = cb;       
     return (Cli_Handler)cli_obj;
+}
+
+Cli_Handler Cli_Create_Object(uint_fast8_t max_size, cli_error_cb err_cb){
+
+    /* create CLI2 Object */
+    Cli_Obj *cli_obj = (Cli_Obj *)malloc(sizeof(Cli_Obj));
+
+    /* create CLI2 commmand data */
+    Cli_Data *cli_list = (Cli_Data *)malloc(max_size * sizeof(Cli_Data));
+
+    /* Construct a cli object and return the handler */
+    return Cli_Construct(cli_obj, cli_list, max_size, err_cb);
 }
 
 Cli_ReturnCode Cli_Add(Cli_Handler handle, Cli_Data *cli_data){

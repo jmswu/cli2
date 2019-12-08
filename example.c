@@ -4,7 +4,11 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "cli2.h"
+
+/* comment this out for static construction example */
+#define CLI2_DYNAMIC_CREATION_EXAMPLE
 
 void cmd_help(char *cmd, void *arg0, void *arg1);   /* command help callback */
 void cmd_cmd1(char *cmd, void *arg0, void *arg1);   /* command1 callback */
@@ -12,10 +16,32 @@ void cmd_cmd2(char *cmd, void *arg0, void *arg1);   /* command2 callback */
 void cmd_cmd3(char *cmd, void *arg0, void *arg1);   /* command3 callback */
 void cmd_error(Cli_Handler handle);                 /* command error callback */
 
+
+#ifdef CLI2_DYNAMIC_CREATION_EXAMPLE
+
+/* TODO: nothing */
+
+#else
+
 Cli_Obj cli_obj;                // make cli object 
 Cli_Data cli_data[10];          // reverse memory for up to 10 cli
 
+#endif
+
+
+
 int main(char *argv[], int argc){
+
+#ifdef CLI2_DYNAMIC_CREATION_EXAMPLE
+
+    printf("Showing dynamic creation example.\n");
+
+    /* Create a cli object that can support up to 10 CLI */
+    Cli_Handler cli_handler = Cli_Create_Object(10, cmd_error);
+
+#else
+
+    printf("Showing static construction example.\n");
 
     /* Construct a cli object */
     Cli_Handler cli_handler;
@@ -23,6 +49,8 @@ int main(char *argv[], int argc){
         cli_data, 
         sizeof(cli_data)/sizeof(cli_data[0]),
         cmd_error);
+
+#endif
 
     /* Assemble command and function */
     Cli_Data cli_cmd_help;
