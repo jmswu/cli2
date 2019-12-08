@@ -91,6 +91,10 @@ Cli_Handler Cli_Construct(Cli_Obj *cli_obj,
  */                               
 Cli_ReturnCode Cli_Add(Cli_Handler handle, Cli_Data *cli_data);
 
+/* Scan the input string for the commands in the CLI list
+ * @param Cli_Handler handle    - cli object handler
+ * @param char *input_str       - pointer to the input string
+ */
 void Cli_Scan(Cli_Handler handle, char *input_str);
 
 /* Print all the information out for debugging
