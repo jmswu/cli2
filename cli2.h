@@ -77,11 +77,19 @@ void Cli_Data_init(Cli_Data *cli_data);
  * @param int max_size          - The maximum commands that is allowed for the CLI 
  *                              - Object, this is size of the Cli_Data array
  * @param cli_default_cb cb     - callback when there is no command match found
+ * @return Cli_Handler          - handler pointer to this object just constructed
  */
 Cli_Handler Cli_Construct(Cli_Obj *cli_obj, 
     Cli_Data *cli_data, 
     uint_least8_t max_size, 
     cli_error_cb cb);
+
+/* Create a CLI object from heap memory (Dynamic creation)
+ * @param uint_fast8_t max_size - maximum command need to support
+ * @param cli_error_cb err_cb   - error callback function
+ * @return Cli_Handler          - handler pointer to this object just created
+ */
+Cli_Handler Cli_Create_Object(uint_fast8_t max_size, cli_error_cb err_cb);
 
 /* Add command data to the CLI2 object
  * @param Cli_Handler handle    - cli object handler
