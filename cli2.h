@@ -91,6 +91,11 @@ Cli_Handler Cli_Construct(Cli_Obj *cli_obj,
  */
 Cli_Handler Cli_Create_Object(uint_fast8_t max_size, cli_error_cb err_cb);
 
+/* Free memory uses by Cli_Create_Object()
+ * @return Cli_Handler          - handler pointer to a CLI object
+ */
+void Cli_Free_Object(Cli_Handler handle);
+
 /* Add command data to the CLI2 object
  * @param Cli_Handler handle    - cli object handler
  * @param Cli_Data *cli_data    - pointer to the commmand data

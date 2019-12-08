@@ -60,6 +60,11 @@ Cli_Handler Cli_Create_Object(uint_fast8_t max_size, cli_error_cb err_cb){
     return Cli_Construct(cli_obj, cli_list, max_size, err_cb);
 }
 
+void Cli_Free_Object(Cli_Handler handle){
+    free(handle->cmd_list);
+    free(handle);
+}
+
 Cli_ReturnCode Cli_Add(Cli_Handler handle, Cli_Data *cli_data){
     uint_fast8_t index = 0;
     uint_fast8_t max_size = 0;
