@@ -17,11 +17,7 @@ void cmd_cmd3(char *cmd, void *arg0, void *arg1);   /* command3 callback */
 void cmd_error(Cli_Handler handle);                 /* command error callback */
 
 
-#ifdef CLI2_DYNAMIC_CREATION_EXAMPLE
-
-/* TODO: nothing */
-
-#else
+#ifndef CLI2_DYNAMIC_CREATION_EXAMPLE
 
 Cli_Obj cli_obj;                // make cli object 
 Cli_Data cli_data[10];          // reverse memory for up to 10 cli
@@ -95,6 +91,14 @@ int main(char *argv[], int argc){
     fgets(buffer, 256, stdin);  /* get user input */
 
     Cli_Scan(cli_handler, buffer);  /* process user input */
+
+
+#ifdef CLI2_DYNAMIC_CREATION_EXAMPLE
+
+    /* free memory */
+    Cli_Free_Object(cli_handler);
+
+#endif
 
     return 0;
 }
