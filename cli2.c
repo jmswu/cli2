@@ -7,7 +7,7 @@
 #include "stdlib.h"
 #include "cli2.h"
 
-/*  Cli2 library default call back function
+/*!  Cli2 library default call back function
  */
 void cli_default(char *cmd, void *arg0, void *arg1);
 void cli_default(char *cmd, void *arg0, void *arg1){
@@ -101,10 +101,10 @@ void Cli_print(Cli_Handler handle){
         handle->index);
 }
 
-/* parse a pattern in the buffer
- * @param char *buff            - char* buffer, char array needs to be parsed
- * @param const char *pattern   - const char* pattern, char array of pattern
- * @return                      - new pointer after the pattern if there is a match
+/*! \brief parse a pattern in the buffer
+ *! \param char *buff            - char* buffer, char array needs to be parsed
+ *! \param const char *pattern   - const char* pattern, char array of pattern
+ *! \return                      - new pointer after the pattern if there is a match
  *                                (-1) negative one if there is not match
  */
 char* Cli_parse(char* buffer, const char* pattern);
